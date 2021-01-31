@@ -5,7 +5,7 @@ import os
 from github import Github
 
 MD_HEAD = """## blog
-My personal blog using issues and GitHub Actions
+我的个人博客，用于记录一些幼稚的想法和脑残的瞬间~
 """
 
 BACKUP_DIR = "BACKUP"
