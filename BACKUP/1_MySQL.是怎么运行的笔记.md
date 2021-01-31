@@ -20,3 +20,13 @@
     - SET [GLOBALE|SESSION] 系统变量名 = 值；
     - SET[@@(GLOBAL|SESSION).] 系统变量名 = 值；
 3. 查看的系统变量：`SHOW [GLOBAL|SESSION] VARIABLES [LIKE 匹配的模式]`;  `show variables like 'max_conn%'`
+
+## Chapter 03. 字符集和比较规则
+>字符集指的是某个字符范围的编码规则
+>比较规则是指对某个字符集中的字符比较大小的一种规则
+
+MySQL 有 4 个级别的字符集和比较规则
+- 服务器级别
+- 数据库级别
+- 表级别
+- 列级别
