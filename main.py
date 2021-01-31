@@ -4,7 +4,7 @@ import os
 
 from github import Github
 
-MD_HEAD = """## Gitblog
+MD_HEAD = """## blog
 My personal blog using issues and GitHub Actions
 """
 
