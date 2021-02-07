@@ -1,6 +1,6 @@
 # [MySQL 是怎么运行的笔记](https://github.com/EruDev/blog/issues/1)
 
-## Chapter 01. 初识 MySQL1
+## Chapter 01. 初识 MySQL
 
 1. MySQL 采用客户端/服务器架构
 2. 客户端与服务器通信的方式
