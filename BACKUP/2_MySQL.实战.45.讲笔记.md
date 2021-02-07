@@ -73,3 +73,45 @@ redo log (重做日志)，binlog（归档日志）
 ![有索引下推执行流程](https://user-images.githubusercontent.com/31091355/106461546-df29d280-64cf-11eb-940a-d495bb52cb12.jpg)
                                                                                 有索引下推执行流程
 
+#### 锁
+
+**全局锁**
+
+```mysql
+FLUSH tables with lock(FTWRL)
+```
+
+整个库处于只读状态，一般用于备份
+
+用可重复读事务隔离级别代替
+
+```mysql
+mysqldump -single-transaction
+```
+
+不使用
+```mysql
+set global readonly = true
+```
+
+**表锁**
+```mysql
+lock tables rad/write
+
+unlokc tables
+```
+
+**MDL(metadata lock)**
+对表做增删改时 加 mdl 读锁 对表结构变动时 加 mdl 写锁
+
+读写 和 写之间互斥
+
+給表加字段索引 会扫描全表
+
+>注意 对表结构做变更 可能导致会话拿不到读锁 卡死 客户端超时打爆数据库
+
+解决方法
+
+ALTER TABLE xxx WAIT N add colum
+ALTER TABLE xxx NOWAIT add colum
+
