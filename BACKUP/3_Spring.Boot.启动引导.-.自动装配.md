@@ -51,3 +51,14 @@ public static void register(BeanDefinitionRegistry registry, String... packageNa
 小结：
 1. SpringFramework 提供了模式注解、@EnableXXX + @Import 的组合手动装配；
 2. `@SpringBootApplication` 标注的主启动类所在包会被视为扫描包的根包
+
+## Java 的 SPI
+> SPI 全称 Service Provider Interface，是 JDK 内置的一种服务提供发现机制。简单来说，它就是一种动态替换发现的机制。
+
+SPI规定，所有要预先声明的类都应该放在 META-INF/services 中。配置的文件名是接口/抽象类的全限定名，文件内容是抽象类的子类或接口的实现类的全限定类名，如果有多个，借助换行符，一行一个。
+
+SpringFramework的SpringFactoriesLoader
+
+1. `AutoConfigurationImportSelector` 配合 `SpringFactoriesLoader` 可加载 “META-INF/spring.factories” 中配置的 `@EnableAutoConfiguration` 对应的自动配置类。
+`DeferredImportSelector` 的执行时机比 `ImportSelector` 更晚。
+SpringFramework 实现了自己的SPI技术，相比较于Java原生的SPI更灵活。
