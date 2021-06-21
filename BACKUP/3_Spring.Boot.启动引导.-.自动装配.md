@@ -82,3 +82,5 @@ public SpringApplication(ResourceLoader resourceLoader, Class<?>... primarySourc
 1. `SpringApplication` 的创建和运行是两个不同的步骤，上面代码是创建。
 2. Spring Boot 会根据当前 classpath 下的类来决定应用类型。
 3. Spring Boot 中两个关键的组件：`ApplicationContextInitializer` 和 `ApplicationListener `，分别是初始化器和监听器，它们都在 构建 `SpringApplication` 时注册。
+
+【至此，`SpringApplication` 初始化完成，下面会真正启动 SpringApplication】
