@@ -84,3 +84,37 @@ public SpringApplication(ResourceLoader resourceLoader, Class<?>... primarySourc
 3. Spring Boot 中两个关键的组件：`ApplicationContextInitializer` 和 `ApplicationListener `，分别是初始化器和监听器，它们都在 构建 `SpringApplication` 时注册。
 
 【至此，`SpringApplication` 初始化完成，下面会真正启动 SpringApplication】
+
+## IOC: 准备运行时环境
+![code](https://raw.githubusercontent.com/EruDev/md-picture/master/img/1624255046.png)
+
+```java
+public ConfigurableApplicationContext run(String... args) {
+    // 4.1 创建StopWatch对象
+    StopWatch stopWatch = new StopWatch();
+    stopWatch.start();
+    // 4.2 创建空的IOC容器，和一组异常报告器
+    ConfigurableApplicationContext context = null;
+    Collection<SpringBootExceptionReporter> exceptionReporters = new ArrayList<>();
+    // 4.3 配置与awt相关的信息
+    configureHeadlessProperty();
+    // 4.4 获取SpringApplicationRunListeners，并调用starting方法（回调机制）
+    SpringApplicationRunListeners listeners = getRunListeners(args);
+    // 【回调】首次启动run方法时立即调用。可用于非常早期的初始化（准备运行时环境之前）。
+    listeners.starting();
+    try {
+        // 将main方法的args参数封装到一个对象中
+        ApplicationArguments applicationArguments = new DefaultApplicationArguments(args);
+        // 4.5 准备运行时环境
+        ConfigurableEnvironment environment = prepareEnvironment(listeners, applicationArguments);
+        //.............
+    }
+```
+**Environment**
+> 它是 IOC 容器的运行环境，它包括 Profile 和 Properties 两大部分，它可由一个到几个激活的 Profile 共同配置，它的配置可在应用级 Bean 中获取。
+
+可以这样理解：
+![Environment](https://raw.githubusercontent.com/EruDev/md-picture/master/img/1624258459.png)
+
+1. SpringApplication 应用中可以使用 `SpringApplicationRunListener` 来监听 SpringBoot 应用的启动过程。
+2. 在创建 IOC 容器前，SpringApplication 会准备运行时环境 `Environment`
