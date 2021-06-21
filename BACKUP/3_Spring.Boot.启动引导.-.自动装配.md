@@ -62,3 +62,23 @@ SpringFramework的SpringFactoriesLoader
 1. `AutoConfigurationImportSelector` 配合 `SpringFactoriesLoader` 可加载 “META-INF/spring.factories” 中配置的 `@EnableAutoConfiguration` 对应的自动配置类。
 `DeferredImportSelector` 的执行时机比 `ImportSelector` 更晚。
 SpringFramework 实现了自己的SPI技术，相比较于Java原生的SPI更灵活。
+
+# Spring Boot IOC
+
+## Spring Boot 准备 IOC 容器
+```java
+public SpringApplication(ResourceLoader resourceLoader, Class<?>... primarySources) {
+        this.resourceLoader = resourceLoader;
+        Assert.notNull(primarySources, "PrimarySources must not be null");
+        this.primarySources = new LinkedHashSet<>(Arrays.asList(primarySources));
+        this.webApplicationType = WebApplicationType.deduceFromClasspath();
+        // 设置初始化器
+        setInitializers((Collection) getSpringFactoriesInstances(ApplicationContextInitializer.class));
+        // 设置监听器
+        setListeners((Collection) getSpringFactoriesInstances(ApplicationListener.class));
+        this.mainApplicationClass = deduceMainApplicationClass();
+}
+```
+1. `SpringApplication` 的创建和运行是两个不同的步骤，上面代码是创建。
+2. Spring Boot 会根据当前 classpath 下的类来决定应用类型。
+3. Spring Boot 中两个关键的组件：`ApplicationContextInitializer` 和 `ApplicationListener `，分别是初始化器和监听器，它们都在 构建 `SpringApplication` 时注册。
