@@ -118,3 +118,9 @@ public ConfigurableApplicationContext run(String... args) {
 
 1. SpringApplication 应用中可以使用 `SpringApplicationRunListener` 来监听 SpringBoot 应用的启动过程。
 2. 在创建 IOC 容器前，SpringApplication 会准备运行时环境 `Environment`
+
+## IOC 创建、初始化容器
+
+1. Banner 在初始化运行时环境之后，创建 IOC 容器之前打印；
+2. SpringApplication 会根据前面确定好的应用类型，创建对应的 IOC 容器；
+3. IOC 容器在刷新之前会进行初始化、加载主启动类等预处理工作。
