@@ -127,6 +127,88 @@ public ConfigurableApplicationContext run(String... args) {
 
 ## IOC 刷新容器-BeanFactory的预处理
 
+```java
+//最终调到AbstractApplicationContext的refresh方法
+public void refresh() throws BeansException, IllegalStateException {
+    synchronized (this.startupShutdownMonitor) {
+        // Prepare this context for refreshing.
+        // 1. 初始化前的预处理
+        prepareRefresh();
+
+        // Tell the subclass to refresh the internal bean factory.
+        // 2. 获取BeanFactory，加载所有bean的定义信息（未实例化）
+        ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
+
+        // Prepare the bean factory for use in this context.
+        // 3. BeanFactory的预处理配置
+        prepareBeanFactory(beanFactory);
+
+        try {
+            // Allows post-processing of the bean factory in context subclasses.
+            // 4. 准备BeanFactory完成后进行的后置处理
+            postProcessBeanFactory(beanFactory);
+
+            // Invoke factory processors registered as beans in the context.
+            // 5. 执行BeanFactory创建后的后置处理器
+            invokeBeanFactoryPostProcessors(beanFactory);
+
+            // Register bean processors that intercept bean creation.
+            // 6. 注册Bean的后置处理器
+            registerBeanPostProcessors(beanFactory);
+
+            // Initialize message source for this context.
+            // 7. 初始化MessageSource
+            initMessageSource();
+
+            // Initialize event multicaster for this context.
+            // 8. 初始化事件派发器
+            initApplicationEventMulticaster();
+
+            // Initialize other special beans in specific context subclasses.
+            // 9. 子类的多态onRefresh
+            onRefresh();
+
+            // Check for listener beans and register them.
+            // 10. 注册监听器
+            registerListeners();
+          
+            //到此为止，BeanFactory已创建完成
+
+            // Instantiate all remaining (non-lazy-init) singletons.
+            // 11. 初始化所有剩下的单例Bean
+            finishBeanFactoryInitialization(beanFactory);
+
+            // Last step: publish corresponding event.
+            // 12. 完成容器的创建工作
+            finishRefresh();
+        }
+
+        catch (BeansException ex) {
+            if (logger.isWarnEnabled()) {
+                logger.warn("Exception encountered during context initialization - " +
+                        "cancelling refresh attempt: " + ex);
+            }
+
+            // Destroy already created singletons to avoid dangling resources.
+            destroyBeans();
+
+            // Reset 'active' flag.
+            cancelRefresh(ex);
+
+            // Propagate exception to caller.
+            throw ex;
+        }
+
+        finally {
+            // Reset common introspection caches in Spring's core, since we
+            // might not ever need metadata for singleton beans anymore...
+            // 13. 清除缓存
+            resetCommonCaches();
+        }
+    }
+}
+```
+
 **BeanPostProcessor**：Bean 的后置处理器，可以在对象实例化但初始化之前，以及初始化之后进行一些后置处理。
 ![BeanPostProcessor](https://raw.githubusercontent.com/EruDev/md-picture/master/img/1624343300.png)
 
