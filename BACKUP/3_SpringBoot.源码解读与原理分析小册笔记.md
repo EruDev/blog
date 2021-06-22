@@ -124,3 +124,13 @@ public ConfigurableApplicationContext run(String... args) {
 1. Banner 在初始化运行时环境之后，创建 IOC 容器之前打印；
 2. SpringApplication 会根据前面确定好的应用类型，创建对应的 IOC 容器；
 3. IOC 容器在刷新之前会进行初始化、加载主启动类等预处理工作。
+
+## IOC 刷新容器-BeanFactory的预处理
+
+**BeanPostProcessor**：Bean 的后置处理器，可以在对象实例化但初始化之前，以及初始化之后进行一些后置处理。
+![BeanPostProcessor](https://raw.githubusercontent.com/EruDev/md-picture/master/img/1624343300.png)
+
+1. IOC容器在开始刷新之前有加载 `BeanDefinition` 的过程。
+2. `BeanFactory` 的初始化中会注册后置处理器，和自动注入的支持。
+3. `BeanPostProcessor` 的执行时机是在 Bean 初始化前后执行。
+
