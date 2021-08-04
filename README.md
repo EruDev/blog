@@ -11,3 +11,5 @@
 - [MySQL 是怎么运行的笔记](https://github.com/EruDev/blog/issues/1)--2021-01-31
 ## Spring Boot
 - [SpringBoot 源码解读与原理分析小册笔记](https://github.com/EruDev/blog/issues/3)--2021-06-16
+## note
+- [Java 并发实现原理: JDK 源码剖析 (笔记)](https://github.com/EruDev/blog/issues/5)--2021-08-03
